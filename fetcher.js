@@ -1,7 +1,9 @@
 const request = require('request');
 const fs = require('fs');
 
-const fetchingPage = (url, callback) => {
+const fetcher = (commands, callback) => {
+  let url = (commands[0]);
+  let file = (commands[1]);
   request(url, (error, response, body) => {
     if (error) return callback(error, null);
     if (response.statusCode !== 200) {
@@ -9,18 +11,12 @@ const fetchingPage = (url, callback) => {
       callback(Error(msg), null);
       return;
     }
-    data = new Uint8Array(Buffer.from(body));
-    callback();
+    let data = new Uint8Array(Buffer.from(body));
+    saveFile(file, data);
   });
 };
 
-const fetcher = (commands) => {
-  let url = (commands[0]);
-  file = (commands[1]);
-  fetchingPage(url, saveFile);
-}; 
-
-const saveFile = () => {
+const saveFile = (file, data) => {
   fs.writeFile(file, data, (error) => {
     if (error) throw err;
     console.log('Download and saved!');
