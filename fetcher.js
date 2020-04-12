@@ -18,9 +18,9 @@ const fetcher = (commands, callback) => {
 
 const saveFile = (file, data) => {
   fs.writeFile(file, data, (error) => {
-    if (error) throw err;
+    if (error) throw new Error('Error');
     let stats = fs.statSync(file);
-    let sizeInBytes = stats["size"]
+    let sizeInBytes = stats["size"];
     console.log(`Download and saved ${sizeInBytes} bytes to ${file}!`);
   });
 };
